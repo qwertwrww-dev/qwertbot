@@ -4,7 +4,7 @@
   "description": "Telegram Crypto Payment Bot",
   "main": "index.js",
   "scripts": {
-  "start": "node index.js",
+  "start": "node pushdb.js",
   "postinstall": "npx prisma generate",
   "dbpush": "npx prisma db push"
   },
