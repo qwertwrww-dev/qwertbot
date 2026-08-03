@@ -4,92 +4,81 @@ const express = require("express");
 const TelegramBot = require("node-telegram-bot-api");
 const { createPayment } = require("./services/payment");
 const prisma = require("./lib/prisma");
+const products = require("./config/products");
+
 const app = express();
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
-
 const bot = new TelegramBot(process.env.BOT_TOKEN, {
   polling: true,
 });
-
 
 // Health Check
 app.get("/", (req, res) => {
   res.send("Global Payment Bot is Online 🚀");
 });
 
-
 // Start Command
 bot.onText(/\/start/, async (msg) => {
-bot.onText(/\/status/, async (msg) => {
 
-  const telegramId = String(msg.chat.id);
-
-  const user = await prisma.user.findUnique({
-    where: {
-      telegramId: telegramId
+  const buttons = Object.values(products).map(product => ([
+    {
+      text: `${product.name} - $${product.price}`,
+      callback_data: `buy_${product.id}`
     }
-  });
+  ]));
 
+  buttons.push([
+    {
+      text: "📞 Contact Admin",
+      url: "https://t.me/qwertwrww"
+    }
+  ]);
 
-  if (!user) {
-
-    await bot.sendMessage(
-      msg.chat.id,
-      "❌ You don't have ToolsBot access yet."
-    );
-
-    return;
-
-  }
-
-
-  if (user.status === "active") {
-
-    await bot.sendMessage(
-      msg.chat.id,
-      `✅ ToolsBot Access Active
-
-Product:
-${user.product}
-
-Status:
-${user.status}`
-    );
-
-  }
-
-});
-  
   await bot.sendMessage(
     msg.chat.id,
-    `🌍 Welcome!
-
-Choose an option below.`,
+    "🌍 Welcome!\n\nChoose an option below.",
     {
       reply_markup: {
-        inline_keyboard: [
-          [
-            {
-              text: "🛒 Buy ToolsBot",
-              callback_data: "buy_ToolsBot"
-            }
-          ],
-          [
-            {
-              text: "📞 Contact Admin",
-              url: "https://t.me/qwertwrww"
-            }
-          ]
-        ]
+        inline_keyboard: buttons
       }
     }
   );
 
 });
 
+// Status Command
+bot.onText(/\/status/, async (msg) => {
+
+  const telegramId = String(msg.chat.id);
+
+  const user = await prisma.user.findUnique({
+    where: {
+      telegramId
+    }
+  });
+
+  if (!user) {
+
+    return bot.sendMessage(
+      msg.chat.id,
+      "❌ You don't have ToolsBot access yet."
+    );
+
+  }
+
+  await bot.sendMessage(
+    msg.chat.id,
+    `✅ ToolsBot Access Active
+
+Product: ${user.product}
+
+Status: ${user.status}`
+  );
+
+});
 
 // Button Handler
 bot.on("callback_query", async (query) => {
