@@ -18,9 +18,11 @@ app.get("/", (req, res) => {
   res.send("Global Payment Bot is Online 🚀");
 });
 
+
 // Start Command
-bot.onText(/\/start/, (msg) => {
-  bot.sendMessage(
+bot.onText(/\/start/, async (msg) => {
+
+  await bot.sendMessage(
     msg.chat.id,
     `🌍 Welcome!
 
@@ -28,53 +30,102 @@ Choose an option below.`,
     {
       reply_markup: {
         inline_keyboard: [
-          [{ text: "🛒 Buy ToolsBot", callback_data: "buy_ToolsBot" }],
-          [{ text: "📞 Contact Admin", url: "https://t.me/qwertwrww" }]
+          [
+            {
+              text: "🛒 Buy ToolsBot",
+              callback_data: "buy_ToolsBot"
+            }
+          ],
+          [
+            {
+              text: "📞 Contact Admin",
+              url: "https://t.me/qwertwrww"
+            }
+          ]
         ]
       }
     }
   );
+
 });
+
 
 // Button Handler
 bot.on("callback_query", async (query) => {
-  if (query.data === "buy_ToolsBot") {
 
-    const invoice = await createPayment({
-        priceAmount: 100,
-        priceCurrency: "usd",
-        payCurrency: "ton",
-        orderId: `ORDER-${Date.now()}`,
-        orderDescription: "ToolsBot Access",
-        successUrl: "https://your-domain.com/success",
-        cancelUrl: "https://your-domain.com/cancel"
-    });
-
-    await bot.sendMessage(
-        chatId,
-        `💳 Payment Created
-
-Amount: $100
-
-Pay with TON
-
-${invoice.invoice_url}`
-    );
-
-}
-  
   const chatId = query.message.chat.id;
 
+  await bot.answerCallbackQuery(query.id);
+
+
   if (query.data === "buy_ToolsBot") {
-    await bot.sendMessage(
-      chatId,
-      "💳 Creating your crypto payment invoice...\nPlease wait."
-    );
+
+    try {
+
+      await bot.sendMessage(
+        chatId,
+        "💳 Creating your crypto payment invoice...\nPlease wait."
+      );
+
+
+      const invoice = await createPayment({
+
+        priceAmount: 100,
+
+        priceCurrency: "usd",
+
+        payCurrency: "ton",
+
+        orderId: `ORDER-${Date.now()}`,
+
+        orderDescription: "ToolsBot Access",
+
+        successUrl: "https://your-domain.com/success",
+
+        cancelUrl: "https://your-domain.com/cancel"
+
+      });
+
+
+      await bot.sendMessage(
+        chatId,
+        `✅ Payment Created
+
+🛒 Product:
+ToolsBot Access
+
+💰 Amount:
+$100
+
+💎 Payment:
+TON
+
+🔗 Pay Here:
+${invoice.invoice_url}`
+      );
+
+
+    } catch (error) {
+
+      console.error(
+        "Payment Error:",
+        error.response?.data || error.message
+      );
+
+
+      await bot.sendMessage(
+        chatId,
+        "❌ Failed creating payment invoice. Please try again later."
+      );
+
+    }
+
   }
 
-  bot.answerCallbackQuery(query.id);
 });
 
+
+// Start Server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
