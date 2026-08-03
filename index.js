@@ -168,6 +168,77 @@ Your ToolsBot access has been activated 🚀`
   }
 
 });
+app.post("/nowpayments-webhook", async (req, res) => {
+
+  try {
+
+    const payment = req.body;
+
+    console.log("NOWPayments Webhook:", payment);
+
+    if (
+      payment.payment_status === "finished" ||
+      payment.payment_status === "confirmed"
+    ) {
+
+      const telegramId = payment.order_id.replace("ORDER-", "");
+
+      await bot.sendMessage(
+        telegramId,
+        `✅ Payment Successful!
+
+Your ToolsBot access has been activated 🚀`
+      );
+
+    }
+
+    res.sendStatus(200);
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.sendStatus(500);
+
+  }
+
+});
+
+app.post("/nowpayments-webhook", async (req, res) => {
+
+  try {
+
+    const payment = req.body;
+
+    console.log("NOWPayments Webhook:", payment);
+
+    if (
+      payment.payment_status === "finished" ||
+      payment.payment_status === "confirmed"
+    ) {
+
+      const telegramId = payment.order_id.replace("ORDER-", "");
+
+      await bot.sendMessage(
+        telegramId,
+        `✅ Payment Successful!
+
+Your ToolsBot access has been activated 🚀`
+      );
+
+    }
+
+    res.sendStatus(200);
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.sendStatus(500);
+
+  }
+
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
