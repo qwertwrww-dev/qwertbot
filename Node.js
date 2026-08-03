@@ -1,6 +1,6 @@
-mkdir payment-bot
-cd payment-bot
+mkdir crypto-payment-bot
+cd crypto-payment-bot
 
 npm init -y
 
-npm install node-telegram-bot-api express dotenv axios
+npm install node-telegram-bot-api express axios dotenv
