@@ -106,8 +106,13 @@ return bot.sendMessage(
   chatId,
   `📝 Product: ${product.name}
 
-Please enter the mobile number you want to track..`
-);
+return bot.sendMessage(
+  chatId,
+  `${product.question}
+
+${product.placeholder}`
+);`
+  
   try {
 
     await bot.sendMessage(
