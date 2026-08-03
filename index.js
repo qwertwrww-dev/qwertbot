@@ -88,7 +88,15 @@ bot.on("callback_query", async (query) => {
 
       });
 
-      console.log("INVOICE DATA:", invoice);
+      console.log(
+  "INVOICE URL:",
+  invoice.invoice_url
+);
+
+console.log(
+  "INVOICE ID:",
+  invoice.id
+);
       
       await bot.sendMessage(
         chatId,
