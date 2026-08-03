@@ -165,10 +165,7 @@ app.post("/nowpayments-webhook", async (req, res) => {
 
     const payment = req.body;
 
-    console.log(
-      "NOWPayments Webhook:",
-      payment
-    );
+    console.log("NOWPayments Webhook:", payment);
 
 
     if (
@@ -176,86 +173,52 @@ app.post("/nowpayments-webhook", async (req, res) => {
       payment.payment_status === "confirmed"
     ) {
 
-      const telegramId = payment.order_id.replace(
-        "ORDER-",
-        ""
-      );
-      
+      const telegramId = payment.order_id.replace("ORDER-", "");
+
+
       await prisma.user.upsert({
 
-  where: {
-    telegramId: telegramId
-  },
+        where: {
+          telegramId: telegramId
+        },
 
-  update: {
-    status: "active",
-    paymentId: payment.payment_id || null
-  },
+        update: {
+          status: "active",
+          paymentId: payment.payment_id || null
+        },
 
-  create: {
-    telegramId: telegramId,
-    product: "ToolsBot",
-    paymentId: payment.payment_id || null,
-    status: "active"
-  }
+        create: {
+          telegramId: telegramId,
+          product: "ToolsBot",
+          paymentId: payment.payment_id || null,
+          status: "active"
+        }
 
-});
-
-      if (
-  payment.payment_status === "finished" ||
-  payment.payment_status === "confirmed"
-) {
-
-  const telegramId = payment.order_id.replace("ORDER-", "");
+      });
 
 
-  await prisma.user.upsert({
-
-    where: {
-      telegramId: telegramId
-    },
-
-    update: {
-      status: "active",
-      paymentId: payment.payment_id || null
-    },
-
-    create: {
-      telegramId: telegramId,
-      product: "ToolsBot",
-      paymentId: payment.payment_id || null,
-      status: "active"
-    }
-
-  });
-
-
-  await bot.sendMessage(
-    telegramId,
-    `✅ Payment Successful!
+      await bot.sendMessage(
+        telegramId,
+        `✅ Payment Successful!
 
 Your ToolsBot access has been activated 🚀`
-  );
+      );
 
-}
+    }
+
 
     res.sendStatus(200);
 
 
   } catch (error) {
 
-    console.error(
-      "Webhook Error:",
-      error
-    );
+    console.error(error);
 
     res.sendStatus(500);
 
   }
 
 });
-
-
 
 // Start Server
 
