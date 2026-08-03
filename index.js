@@ -109,7 +109,7 @@ return bot.sendMessage(
 ${product.question}
 
 ${product.placeholder}`
-);
+});
   
   try {
 
