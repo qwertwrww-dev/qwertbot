@@ -176,12 +176,30 @@ app.post("/nowpayments-webhook", async (req, res) => {
       payment.payment_status === "confirmed"
     ) {
 
-
       const telegramId = payment.order_id.replace(
         "ORDER-",
         ""
       );
+      
+      await prisma.user.upsert({
 
+  where: {
+    telegramId: telegramId
+  },
+
+  update: {
+    status: "active",
+    paymentId: payment.payment_id || null
+  },
+
+  create: {
+    telegramId: telegramId,
+    product: "ToolsBot",
+    paymentId: payment.payment_id || null,
+    status: "active"
+  }
+
+});
 
       await bot.sendMessage(
         telegramId,
