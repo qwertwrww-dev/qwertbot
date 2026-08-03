@@ -104,14 +104,12 @@ pendingOrders[chatId] = {
 
 return bot.sendMessage(
   chatId,
-  `📝 Product: ${product.name}`
+  `📝 Product: ${product.name}
 
-return bot.sendMessage(
-  chatId,
-  `${product.question}
+${product.question}
 
 ${product.placeholder}`
-);`
+);
   
   try {
 
