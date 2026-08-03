@@ -98,7 +98,21 @@ bot.on("callback_query", async (query) => {
   if (!product) {
     return bot.sendMessage(chatId, "❌ Product not found.");
   }
+pendingOrders[chatId] = {
+  productId: product.id
+};
 
+return bot.sendMessage(
+  chatId,
+  `📝 Product: ${product.name}
+
+Please enter the cat type/name for this order.
+
+Example:
+Persian
+British Shorthair
+Maine Coon`
+);
   try {
 
     await bot.sendMessage(
