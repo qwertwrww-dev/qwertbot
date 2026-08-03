@@ -160,8 +160,10 @@ app.post("/nowpayments-webhook", async (req, res) => {
       payment.payment_status === "confirmed"
     ) {
 
-      const telegramId = payment.order_id.replace("ORDER-", "");
+      const parts = payment.order_id.split("-");
 
+const telegramId = parts[1];
+const productId = parts[2];
 
       await prisma.user.upsert({
 
