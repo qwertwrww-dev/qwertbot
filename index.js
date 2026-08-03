@@ -121,7 +121,9 @@ bot.on("message", async (msg) => {
   const chatId = msg.chat.id;
 
   const pending = pendingOrders[chatId];
-
+console.log("MESSAGE:", msg.text);
+console.log("PENDING:", pending);
+  
   if (!pending) return;
 
   const product = products[pending.productId];
