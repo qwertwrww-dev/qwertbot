@@ -108,7 +108,7 @@ bot.on("callback_query", async (query) => {
       priceAmount: product.price,
       priceCurrency: product.currency,
       payCurrency: product.payCurrency,
-      orderId: `ORDER-${chatId}`,
+      orderId: `ORDER-${chatId}-${product.id}`,
       orderDescription: product.description,
       successUrl: "https://your-domain.com/success",
       cancelUrl: "https://your-domain.com/cancel"
