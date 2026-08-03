@@ -105,20 +105,23 @@ ${invoice.invoice_url}`
       );
 
 
-    } catch (error) {
+    catch (error) {
 
-      console.error(
-        "Payment Error:",
-        error.response?.data || error.message
-      );
+  console.log(
+    "PAYMENT FULL ERROR:",
+    JSON.stringify(
+      error.response?.data || error.message,
+      null,
+      2
+    )
+  );
 
+  await bot.sendMessage(
+    chatId,
+    "❌ Failed creating payment invoice. Please try again later."
+  );
 
-      await bot.sendMessage(
-        chatId,
-        "❌ Failed creating payment invoice. Please try again later."
-      );
-
-    }
+}
 
   }
 
