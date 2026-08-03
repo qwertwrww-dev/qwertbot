@@ -130,7 +130,7 @@ console.log("PENDING:", pending);
 
   if (!product) return;
 
-  const catName = msg.text.trim();
+  const TargetNumber = msg.text.trim();
 
   try {
 
@@ -138,7 +138,7 @@ console.log("PENDING:", pending);
       chatId,
       "💳 Creating your payment invoice..."
     );
-
+    console.log("Creating invoice...");
     const invoice = await createPayment({
 
       priceAmount: product.price,
