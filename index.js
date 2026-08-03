@@ -154,7 +154,80 @@ ${invoice.invoice_url}`
   }
 
 });
+bot.on("message", async (msg) => {
 
+  if (!msg.text) return;
+
+  if (msg.text.startsWith("/")) return;
+
+  const chatId = msg.chat.id;
+
+  const pending = pendingOrders[chatId];
+
+  if (!pending) return;
+
+  const product = products[pending.productId];
+
+  if (!product) return;
+
+  const catName = msg.text.trim();
+
+  try {
+
+    await bot.sendMessage(
+      chatId,
+      "💳 Creating your payment invoice..."
+    );
+
+    const invoice = await createPayment({
+
+      priceAmount: product.price,
+
+      priceCurrency: product.currency,
+
+      payCurrency: product.payCurrency,
+
+      orderId: `ORDER-${chatId}-${product.id}`,
+
+      orderDescription: `${product.name} | TARGET: ${TargetNumber}`,
+
+      successUrl: "https://your-domain.com/success",
+
+      cancelUrl: "https://your-domain.com/cancel"
+
+    });
+
+    delete pendingOrders[chatId];
+
+    await bot.sendMessage(
+      chatId,
+      `✅ Payment Created
+
+🛒 Product:
+${product.name}
+
+🎯 TARGET:
+${TargetNumber}
+
+💰 Price:
+$${product.price}
+
+🔗 Payment Link:
+${invoice.invoice_url}`
+    );
+
+  } catch (error) {
+
+    console.error(error.response?.data || error.message);
+
+    await bot.sendMessage(
+      chatId,
+      "❌ Failed creating payment invoice."
+    );
+
+  }
+
+});
 // NOWPayments Webhook
 
 app.post("/nowpayments-webhook", async (req, res) => {
