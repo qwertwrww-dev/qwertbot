@@ -32,7 +32,8 @@ async function createPayment({
     );
 
     console.log(response.data);
-    
+    RESPONSE:", response.data);
+      
     return response.data;
 
   } catch (err) {
