@@ -33,3 +33,4 @@ module.exports = {
     question: "😈 Please enter the target's MOBILE PHONE NUMBEr or SOCIAL MEDIA ACCOUNT.",
     placeholder: "Example:\Mobile : +123456789\SocialMedia : @insta"
   }
+}
