@@ -7,9 +7,7 @@ module.exports = {
   currency: "usd",
   payCurrency: "ton",
   description: "Premium ToolsBot Access",
-
   question: "📧 Please enter your Gmail address for your ToolsBot account.",
-
   placeholder: "Example:\nyourname@gmail.com"
 },
 
@@ -20,11 +18,10 @@ module.exports = {
     currency: "usd",
     payCurrency: "ton",
     description: "Track Mobile Number In Real-time", 
-    question: "📍 Please enter the mobile number you want to track..",
+    question: "📍 Please enter the mobile number you want to track.",
 
   placeholder: "Example:\+123456789"
 },
-
 
   DOXXING: {
     id: "DOXXING",
@@ -34,7 +31,5 @@ module.exports = {
     payCurrency: "ton",
     description: "Doxxing The Target's Identity", 
     question: "😈 Please enter the target's MOBILE PHONE NUMBEr or SOCIAL MEDIA ACCOUNT.",
-
-  placeholder: "Example:\Mobile : +123456789\Social Media : @insta"
-  
+    placeholder: "Example:\Mobile : +123456789:\SocialMedia : @insta"
 };
