@@ -72,6 +72,8 @@ bot.on("callback_query", async (query) => {
 
       const invoice = await createPayment({
 
+      console.log("INVOICE DATA:", invoice);
+      
         priceAmount: 100,
 
         priceCurrency: "usd",
