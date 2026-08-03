@@ -9,9 +9,11 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
+
 const bot = new TelegramBot(process.env.BOT_TOKEN, {
   polling: true,
 });
+
 
 // Health Check
 app.get("/", (req, res) => {
@@ -97,38 +99,38 @@ ToolsBot Access
 💰 Amount:
 $100
 
-💎 Payment:
+💎 Pay With:
 TON
 
-🔗 Pay Here:
+🔗 Payment Link:
 ${invoice.invoice_url}`
       );
 
 
-    catch (error) {
+    } catch (error) {
 
-  console.log(
-    "PAYMENT FULL ERROR:",
-    JSON.stringify(
-      error.response?.data || error.message,
-      null,
-      2
-    )
-  );
+      console.log(
+        "PAYMENT ERROR:",
+        JSON.stringify(
+          error.response?.data || error.message,
+          null,
+          2
+        )
+      );
 
-  await bot.sendMessage(
-    chatId,
-    "❌ Failed creating payment invoice. Please try again later."
-  );
 
-}
+      await bot.sendMessage(
+        chatId,
+        "❌ Failed creating payment invoice. Please try again later."
+      );
+
+    }
 
   }
 
 });
 
 
-// Start Server
 
 // NOWPayments Webhook
 
@@ -138,7 +140,10 @@ app.post("/nowpayments-webhook", async (req, res) => {
 
     const payment = req.body;
 
-    console.log("NOWPayments Webhook:", payment);
+    console.log(
+      "NOWPayments Webhook:",
+      payment
+    );
 
 
     if (
@@ -146,7 +151,11 @@ app.post("/nowpayments-webhook", async (req, res) => {
       payment.payment_status === "confirmed"
     ) {
 
-      const telegramId = payment.order_id.split("-")[1];
+
+      const telegramId = payment.order_id.replace(
+        "ORDER-",
+        ""
+      );
 
 
       await bot.sendMessage(
@@ -156,6 +165,7 @@ app.post("/nowpayments-webhook", async (req, res) => {
 Your ToolsBot access has been activated 🚀`
       );
 
+
     }
 
 
@@ -164,42 +174,10 @@ Your ToolsBot access has been activated 🚀`
 
   } catch (error) {
 
-    console.error(error);
-
-    res.sendStatus(500);
-
-  }
-
-});
-app.post("/nowpayments-webhook", async (req, res) => {
-
-  try {
-
-    const payment = req.body;
-
-    console.log("NOWPayments Webhook:", payment);
-
-    if (
-      payment.payment_status === "finished" ||
-      payment.payment_status === "confirmed"
-    ) {
-
-      const telegramId = payment.order_id.replace("ORDER-", "");
-
-      await bot.sendMessage(
-        telegramId,
-        `✅ Payment Successful!
-
-Your ToolsBot access has been activated 🚀`
-      );
-
-    }
-
-    res.sendStatus(200);
-
-  } catch (error) {
-
-    console.error(error);
+    console.error(
+      "Webhook Error:",
+      error
+    );
 
     res.sendStatus(500);
 
@@ -207,42 +185,14 @@ Your ToolsBot access has been activated 🚀`
 
 });
 
-app.post("/nowpayments-webhook", async (req, res) => {
 
-  try {
 
-    const payment = req.body;
-
-    console.log("NOWPayments Webhook:", payment);
-
-    if (
-      payment.payment_status === "finished" ||
-      payment.payment_status === "confirmed"
-    ) {
-
-      const telegramId = payment.order_id.replace("ORDER-", "");
-
-      await bot.sendMessage(
-        telegramId,
-        `✅ Payment Successful!
-
-Your ToolsBot access has been activated 🚀`
-      );
-
-    }
-
-    res.sendStatus(200);
-
-  } catch (error) {
-
-    console.error(error);
-
-    res.sendStatus(500);
-
-  }
-
-});
+// Start Server
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+
+  console.log(
+    `Server running on port ${PORT}`
+  );
+
 });
