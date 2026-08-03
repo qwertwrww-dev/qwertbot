@@ -23,7 +23,8 @@ async function createPayment({
         success_url: successUrl,
         cancel_url: cancelUrl
           
-        ipn_callback_url: "https://qwertbot-production.up.railway.app"
+        ipn_callback_url:
+    "https://qwertbot-production.up.railway.app"
         
       },
       {
