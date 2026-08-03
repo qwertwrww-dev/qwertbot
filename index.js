@@ -41,7 +41,7 @@ bot.onText(/\/start/, async (msg) => {
 
   await bot.sendMessage(
     msg.chat.id,
-    "🌍 Welcome!\n\nChoose an option below.",
+    "🌍 WELLCOME!\n\n!QWERT is a team founded in 2022\n\n!Here you can order tracking and doxxing services\n\n!Please select an option below to order.",
     {
       reply_markup: {
         inline_keyboard: buttons
