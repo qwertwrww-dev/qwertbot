@@ -23,7 +23,46 @@ app.get("/", (req, res) => {
 
 // Start Command
 bot.onText(/\/start/, async (msg) => {
+bot.onText(/\/status/, async (msg) => {
 
+  const telegramId = String(msg.chat.id);
+
+  const user = await prisma.user.findUnique({
+    where: {
+      telegramId: telegramId
+    }
+  });
+
+
+  if (!user) {
+
+    await bot.sendMessage(
+      msg.chat.id,
+      "❌ You don't have ToolsBot access yet."
+    );
+
+    return;
+
+  }
+
+
+  if (user.status === "active") {
+
+    await bot.sendMessage(
+      msg.chat.id,
+      `✅ ToolsBot Access Active
+
+Product:
+${user.product}
+
+Status:
+${user.status}`
+    );
+
+  }
+
+});
+  
   await bot.sendMessage(
     msg.chat.id,
     `🌍 Welcome!
