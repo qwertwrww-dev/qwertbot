@@ -2,6 +2,7 @@ const axios = require("axios");
 
 const API_URL = "https://api.nowpayments.io/v1";
 
+
 async function createPayment({
   priceAmount,
   priceCurrency,
@@ -11,7 +12,9 @@ async function createPayment({
   successUrl,
   cancelUrl
 }) {
+
   try {
+
     const response = await axios.post(
       `${API_URL}/invoice`,
       {
@@ -21,11 +24,8 @@ async function createPayment({
         order_id: orderId,
         order_description: orderDescription,
         success_url: successUrl,
-        cancel_url: cancelUrl
-          
-        ipn_callback_url:
-    "https://qwertbot-production.up.railway.app"
-        
+        cancel_url: cancelUrl,
+        ipn_callback_url: "https://qwertbot-production.up.railway.app/nowpayments-webhook"
       },
       {
         headers: {
@@ -35,15 +35,33 @@ async function createPayment({
       }
     );
 
-    console.log(response.data);
+
+    console.log(
+      "NOWPAYMENTS RESPONSE:",
+      response.data
+    );
+
 
     return response.data;
 
+
   } catch (err) {
-    console.error(err.response?.data || err.message);
+
+    console.log(
+      "NOWPAYMENTS ERROR:",
+      JSON.stringify(
+        err.response?.data || err.message,
+        null,
+        2
+      )
+    );
+
     throw err;
+
   }
+
 }
+
 
 module.exports = {
   createPayment
