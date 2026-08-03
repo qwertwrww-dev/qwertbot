@@ -29,7 +29,7 @@ module.exports = {
     currency: "usd",
     payCurrency: "ton",
     description: "Doxxing The Target's Identity", 
-    question: "😈 Please enter the target's MOBILE PHONE NUMBEr or SOCIAL MEDIA ACCOUNT.",
+    question: "😈 Please enter the target's MOBILE PHONE NUMBER or SOCIAL MEDIA ACCOUNT.",
     placeholder: "Example:\ Mobile : +123456789\ SocialMedia : @insta"
   }
 }
