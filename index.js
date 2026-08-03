@@ -110,49 +110,6 @@ ${product.question}
 
 ${product.placeholder}`
 );
- 
-    await bot.sendMessage(
-      chatId,
-      `💳 Creating invoice for ${product.name}...`
-    );
-
-    const invoice = await createPayment({
-      priceAmount: product.price,
-      priceCurrency: product.currency,
-      payCurrency: product.payCurrency,
-      orderId: `ORDER-${chatId}-${product.id}`,
-      orderDescription: product.description,
-      successUrl: "https://your-domain.com/success",
-      cancelUrl: "https://your-domain.com/cancel"
-    });
-
-    await bot.sendMessage(
-      chatId,
-      `✅ Payment Created
-
-🛒 Product:
-${product.name}
-
-💰 Price:
-$${product.price}
-
-💎 Pay With:
-${product.payCurrency.toUpperCase()}
-
-🔗 Payment Link:
-${invoice.invoice_url}`
-    );
-
-  } catch (error) {
-
-    console.error(error.response?.data || error.message);
-
-    await bot.sendMessage(
-      chatId,
-      "❌ Failed creating payment invoice."
-    );
-
-  }
 
 });
 bot.on("message", async (msg) => {
