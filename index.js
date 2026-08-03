@@ -110,9 +110,7 @@ ${product.question}
 
 ${product.placeholder}`
 });
-  
-  try {
-
+ 
     await bot.sendMessage(
       chatId,
       `💳 Creating invoice for ${product.name}...`
