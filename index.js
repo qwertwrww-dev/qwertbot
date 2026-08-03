@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const TelegramBot = require("node-telegram-bot-api");
+const { createPayment } = require("./services/payment");
 
 const app = express();
 app.use(express.json());
