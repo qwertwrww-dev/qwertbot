@@ -201,16 +201,43 @@ app.post("/nowpayments-webhook", async (req, res) => {
 
 });
 
-      await bot.sendMessage(
-        telegramId,
-        `✅ Payment Successful!
+      if (
+  payment.payment_status === "finished" ||
+  payment.payment_status === "confirmed"
+) {
 
-Your ToolsBot access has been activated 🚀`
-      );
+  const telegramId = payment.order_id.replace("ORDER-", "");
 
 
+  await prisma.user.upsert({
+
+    where: {
+      telegramId: telegramId
+    },
+
+    update: {
+      status: "active",
+      paymentId: payment.payment_id || null
+    },
+
+    create: {
+      telegramId: telegramId,
+      product: "ToolsBot",
+      paymentId: payment.payment_id || null,
+      status: "active"
     }
 
+  });
+
+
+  await bot.sendMessage(
+    telegramId,
+    `✅ Payment Successful!
+
+Your ToolsBot access has been activated 🚀`
+  );
+
+}
 
     res.sendStatus(200);
 
