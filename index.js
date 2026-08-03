@@ -97,7 +97,23 @@ console.log(
   "INVOICE ID:",
   invoice.id
 );
-      
+      await prisma.user.upsert({
+
+  where: {
+    telegramId: telegramId
+  },
+
+  update: {
+    status: "active"
+  },
+
+  create: {
+    telegramId: telegramId,
+    product: "ToolsBot",
+    status: "active"
+  }
+
+});
       await bot.sendMessage(
         chatId,
         `✅ Payment Created
