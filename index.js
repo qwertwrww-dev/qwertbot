@@ -178,7 +178,7 @@ const productId = parts[2];
 
         create: {
           telegramId: telegramId,
-          product: "ToolsBot",
+          product: productId,
           paymentId: payment.payment_id || null,
           status: "active"
         }
