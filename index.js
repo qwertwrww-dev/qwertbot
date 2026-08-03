@@ -15,6 +15,8 @@ const bot = new TelegramBot(process.env.BOT_TOKEN, {
   polling: true,
 });
 
+const pendingOrders = {};
+
 // Health Check
 app.get("/", (req, res) => {
   res.send("Global Payment Bot is Online 🚀");
