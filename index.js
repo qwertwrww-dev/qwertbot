@@ -87,58 +87,72 @@ bot.on("callback_query", async (query) => {
 
   await bot.answerCallbackQuery(query.id);
 
+  if (!query.data.startsWith("buy_")) return;
 
-  if (query.data === "buy_ToolsBot") {
+  const productId = query.data.replace("buy_", "");
 
-    try {
+  const product = products[productId];
 
-      await bot.sendMessage(
-        chatId,
-        "💳 Creating your crypto payment invoice...\nPlease wait."
-      );
+  if (!product) {
 
+    return bot.sendMessage(
+      chatId,
+      "❌ Product not found."
+    );
 
-      const invoice = await createPayment({
-   
-        priceAmount: 100,
+  }
 
-        priceCurrency: "usd",
+  try {
 
-        payCurrency: "ton",
+    await bot.sendMessage(
+      chatId,
+      `💳 Creating invoice for ${product.name}...`
+    );
 
-        orderId: `ORDER-${chatId}`,
+    const invoice = await createPayment({
 
-        orderDescription: "ToolsBot Access",
+      priceAmount: product.price,
 
-        successUrl: "https://your-domain.com/success",
+      priceCurrency: product.currency,
 
-        cancelUrl: "https://your-domain.com/cancel"
+      payCurrency: product.payCurrency,
 
-      });
+      orderId: `ORDER-${chatId}`,
 
-      console.log(
-  "INVOICE URL:",
-  invoice.invoice_url
-);
+      orderDescription: product.description,
 
-console.log(
-  "INVOICE ID:",
-  invoice.id
-);
-      await prisma.user.upsert({
+      successUrl: "https://your-domain.com/success",
 
-  where: {
-    telegramId: telegramId
-  },
+      cancelUrl: "https://your-domain.com/cancel"
 
-  update: {
-    status: "active"
-  },
+    });
 
-  create: {
-    telegramId: telegramId,
-    product: "ToolsBot",
-    status: "active"
+    await bot.sendMessage(
+      chatId,
+      `✅ Payment Created
+
+🛒 Product:
+${product.name}
+
+💰 Price:
+$${product.price}
+
+💎 Pay With:
+${product.payCurrency.toUpperCase()}
+
+🔗 Payment Link:
+${invoice.invoice_url}`
+    );
+
+  } catch (error) {
+
+    console.error(error.response?.data || error.message);
+
+    await bot.sendMessage(
+      chatId,
+      "❌ Failed creating payment invoice."
+    );
+
   }
 
 });
