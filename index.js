@@ -27,8 +27,8 @@ Choose an option below.`,
     {
       reply_markup: {
         inline_keyboard: [
-          [{ text: "🛒 Buy Subscription", callback_data: "buy_subscription" }],
-          [{ text: "📞 Contact Admin", url: "https://t.me/yourusername" }]
+          [{ text: "🛒 Buy ToolsBot", callback_data: "buy_ToolsBot" }],
+          [{ text: "📞 Contact Admin", url: "https://t.me/qwertwrww" }]
         ]
       }
     }
@@ -37,9 +37,34 @@ Choose an option below.`,
 
 // Button Handler
 bot.on("callback_query", async (query) => {
+  if (query.data === "buy_ToolsBot") {
+
+    const invoice = await createPayment({
+        priceAmount: 100,
+        priceCurrency: "usd",
+        payCurrency: "ton",
+        orderId: `ORDER-${Date.now()}`,
+        orderDescription: "ToolsBot Access",
+        successUrl: "https://your-domain.com/success",
+        cancelUrl: "https://your-domain.com/cancel"
+    });
+
+    await bot.sendMessage(
+        chatId,
+        `💳 Payment Created
+
+Amount: $100
+
+Pay with TON
+
+${invoice.invoice_url}`
+    );
+
+}
+  
   const chatId = query.message.chat.id;
 
-  if (query.data === "buy_subscription") {
+  if (query.data === "buy_ToolsBot") {
     await bot.sendMessage(
       chatId,
       "💳 Creating your crypto payment invoice...\nPlease wait."
