@@ -19,8 +19,7 @@ module.exports = {
     payCurrency: "ton",
     description: "Track Mobile Number In Real-time", 
     question: "📍 Please enter the mobile number you want to track.",
-
-  placeholder: "Example:\+123456789"
+    placeholder: "Example:\ +123456789"
 },
 
   DOXXING: {
@@ -31,6 +30,6 @@ module.exports = {
     payCurrency: "ton",
     description: "Doxxing The Target's Identity", 
     question: "😈 Please enter the target's MOBILE PHONE NUMBEr or SOCIAL MEDIA ACCOUNT.",
-    placeholder: "Example:\Mobile : +123456789\SocialMedia : @insta"
+    placeholder: "Example:\ Mobile : +123456789\ SocialMedia : @insta"
   }
 }
