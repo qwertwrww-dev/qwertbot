@@ -94,12 +94,7 @@ bot.on("callback_query", async (query) => {
   const product = products[productId];
 
   if (!product) {
-
-    return bot.sendMessage(
-      chatId,
-      "❌ Product not found."
-    );
-
+    return bot.sendMessage(chatId, "❌ Product not found.");
   }
 
   try {
@@ -110,21 +105,13 @@ bot.on("callback_query", async (query) => {
     );
 
     const invoice = await createPayment({
-
       priceAmount: product.price,
-
       priceCurrency: product.currency,
-
       payCurrency: product.payCurrency,
-
       orderId: `ORDER-${chatId}`,
-
       orderDescription: product.description,
-
       successUrl: "https://your-domain.com/success",
-
       cancelUrl: "https://your-domain.com/cancel"
-
     });
 
     await bot.sendMessage(
@@ -156,48 +143,6 @@ ${invoice.invoice_url}`
   }
 
 });
-      await bot.sendMessage(
-        chatId,
-        `✅ Payment Created
-
-🛒 Product:
-ToolsBot Access
-
-💰 Amount:
-$100
-
-💎 Pay With:
-TON
-
-🔗 Payment Link:
-${invoice.invoice_url}`
-      );
-
-
-    } catch (error) {
-
-      console.log(
-        "PAYMENT ERROR:",
-        JSON.stringify(
-          error.response?.data || error.message,
-          null,
-          2
-        )
-      );
-
-
-      await bot.sendMessage(
-        chatId,
-        "❌ Failed creating payment invoice. Please try again later."
-      );
-
-    }
-
-  }
-
-});
-
-
 
 // NOWPayments Webhook
 
