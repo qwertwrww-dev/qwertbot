@@ -76,7 +76,7 @@ bot.on("callback_query", async (query) => {
 
         payCurrency: "ton",
 
-        orderId: `ORDER-${Date.now()}`,
+        orderId: `ORDER-${chatId}`,
 
         orderDescription: "ToolsBot Access",
 
