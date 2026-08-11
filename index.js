@@ -35,7 +35,7 @@ bot.onText(/\/start/, async (msg) => {
   buttons.push([
     {
       text: "📞 Contact Admin",
-      url: "https://t.me/qwertwrww"
+      url: "https://t.me/qwerthellokitty"
     }
   ]);
 
