@@ -1,19 +1,12 @@
 {
-  "name": "global-payment-bot",
+  "name": "telegram-bot-start",
   "version": "1.0.0",
-  "description": "Telegram Crypto Payment Bot",
-  "main": "index.js",
+  "description": "Bot Telegram sederhana yang membalas /start",
+  "main": "bot.js",
   "scripts": {
-  "start": "node index.js",
-  "postinstall": "npx prisma generate",
-  "dbpush": "npx prisma db push"
+    "start": "node bot.js"
   },
   "dependencies": {
-    "@prisma/client": "^6.0.0",
-    "axios": "^1.11.0",
-    "dotenv": "^17.2.1",
-    "express": "^5.1.0",
-    "node-telegram-bot-api": "^0.66.0",
-    "prisma": "^6.0.0"
+    "node-telegram-bot-api": "^0.66.0"
   }
 }
