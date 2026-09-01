@@ -16,7 +16,7 @@ bot.onText(/\/start/, (msg) => {
         [
           {
             text: 'menu',
-            url: 'https://kurominsm.vercel.app',
+            url: 'http://t.me/jasalacaknohp_bot/JASALACAKNOHP',
           },
         ],
       ],
